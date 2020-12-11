@@ -21,5 +21,6 @@ Blog
             {% endfor %}
         </div>
     </div><!-- /.row -->
+    {% include "partials/pagination.html" with page=page_obj %}
 </main><!-- /.container -->
 {% endblock content %}

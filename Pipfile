@@ -7,6 +7,9 @@ verify_ssl = true
 
 [packages]
 django = "*"
+flake8 = "*"
+faker = "*"
+pylint = "*"
 
 [requires]
 python_version = "3.8"
