@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load crispy_forms_tags %}
+
 {% block title %}
   {{ post.title }}
 {% endblock title %}
@@ -10,18 +12,86 @@
 
 {% block content %}
 <main class="container">
-    <div class="row">
-        <div class="col-md-10 offset-1">
-            <div class="blog-post">
-                <h2 class="blog-post-title">{{ post.title }}</h2>
-                <p class="blog-post-meta">{{ post.created_at }} by <a class='text-capitalize'
-                        href="#">{{ post.author}}</a></p>
-                <p>{{ post.body }}</p>
+    <section class="blog-post">
+        <div class="row">
+            <div class="col-md-10 offset-1 mt-5">
+                <div class="blog-post">
+                    <h2 class="blog-post-title">{{ post.title }}</h2>
+                    <p class="blog-post-meta">
+                        {{ post.created_at }} by <strong class='text-capitalize'>{{ post.author.first_name }} {{post.author.last_name }}</strong>
+                    </p>
+                    <p class="blog-post-meta"><strong>Tags:</strong>{{ post.tags.all|join:", " }}</p>
+                    <p>{{ post.body|linebreaks }}</p>
+                </div>
             </div>
         </div>
-    </div><!-- /.row -->
-    <div>
-        <p><a class="btn btn-outline-secondary" href="{% url "blog:post_share" post.id %}">Share this post</a></p>
-    </div>
-</main><!-- /.container -->
+    </section>
+    <section class="similar_posts">
+        <div class="container">
+            <h1>Similar Posts</h1>
+            <div class="row">
+                <div class="col-3">
+                    {% for post in similar_posts %}
+                        <p>
+                            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="share-post">
+        <div class="col-10 offset-1">
+            <p><a class="btn btn-outline-secondary" href="{% url "blog:post_share" post.id %}">Share this post</a></p>
+        </div>
+    </section>
+    <section class="comments">
+        <div class="col-10 offset-1 mt-5">
+            <div class="container">
+                <div class="be-comment-block">
+                    {% with comments.count as total_comments %}
+                        <h3>
+                            {{ total_comments }} comment{{ total_comments|pluralize }}
+                        </h3>
+                    {% endwith %}
+                    {% for comment in comments %}
+                    <div class="comment">
+                        <div class="be-comment mt-3">
+                            <div class="be-img-comment">
+                                <a href="blog-detail-2.html">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="be-ava-comment">
+                                </a>
+                            </div>
+                            <div class="be-comment-content">
+                                <span class="be-comment-name">
+                                    <a href="blog-detail-2.html">{{ comment.name }} </a>
+                                </span>
+                                <span class="be-comment-time">
+                                    <i class="fa fa-clock-o"></i>
+                                    {{ comment.created_at }}
+                                </span>
+                                {{ comment.body|linebreaks }}
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="be-comment-text">
+                        There are no comments for this blog post.
+                    </p>
+                {% endfor %}
+                {% if new_commnet %}
+                    <p>Your commnent has been added.</p>
+                {% else %}
+                    <h3>Add new commnent</h3>
+                    <form method="POST">
+                        {{ form|crispy }}
+                        {% csrf_token %}
+                        <input class="btn btn-outline-secondary" type="submit" name="Submit" id="submit">
+                    </form>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
 {% endblock content %}

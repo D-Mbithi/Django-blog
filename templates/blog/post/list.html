@@ -6,21 +6,25 @@ Blog
 {% include "partials/header.html" %}
 {% endblock header %}
 {% block content %}
-<main class="container">
-    <div class="row">
-        <div class="col-md-10 offset-1">
-            {% for post in posts %}
-            <div class="blog-post">
-                <h2 class="blog-post-title">{{ post.title }}</h2>
-                <p class="blog-post-meta">{{ post.created_at }} by <a class='text-capitalize' href="#">{{ post.author}}</a></p>
-                <p>{{ post.body|truncatewords:100|linebreaks }}</p>
-                <p class="lead mb-0">
-                    <a href="{{ post.get_absolute_url }}" class="text-black-50 font-weight-bold">Continue reading...</a>
-                </p>
-            </div>
-            {% endfor %}
+<main class="container mt-5">
+    <div class="row mb-2">
+    {% for post in posts %}
+    <div class="col-md-10 offset-1">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col-auto d-none d-lg-block">
+          <svg class="bd-placeholder-img" width="300" height="300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
         </div>
-    </div><!-- /.row -->
-    {% include "partials/pagination.html" with page=page_obj %}
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary">{{ post.category }}</strong>
+          <h3 class="mb-0">{{ post.title }}</h3>
+          <div class="mb-1 text-muted">{{ post.created_at }}</div>
+          <p class="card-text mb-auto">{{ post.body|truncatewords:20}}</p>
+          <a href="{{ post.get_absolute_url }}" class="stretched-link">Continue reading</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% include "partials/pagination.html" with page=post %}
 </main><!-- /.container -->
 {% endblock content %}

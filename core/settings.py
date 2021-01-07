@@ -17,7 +17,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -29,6 +29,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Thirdparty
+    'crispy_forms',
+    'taggit',
 
     # Custom Apps
     'blog.apps.BlogConfig',
@@ -131,3 +135,6 @@ EMAIL_HOST_USER = 'mbaamutendwa@gmail.com'
 EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+# Crispy forms
+CRISPY_TEMPLATE_PACK = 'bootstrap'

@@ -10,6 +10,8 @@ django = "*"
 flake8 = "*"
 faker = "*"
 pylint = "*"
+django-crispy-forms = "*"
+django-taggit = "*"
 
 [requires]
 python_version = "3.8"
